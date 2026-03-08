@@ -146,7 +146,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Session Menu";
+				INFOPLIST_KEY_CFBundleDisplayName = "Sesshy";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_LSUIElement = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -156,7 +156,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.isaac.sessionmenu;
-				PRODUCT_NAME = "Session Menu";
+				PRODUCT_NAME = "Sesshy";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -289,7 +289,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Session Menu";
+				INFOPLIST_KEY_CFBundleDisplayName = "Sesshy";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				INFOPLIST_KEY_LSUIElement = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -299,7 +299,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.isaac.sessionmenu;
-				PRODUCT_NAME = "Session Menu";
+				PRODUCT_NAME = "Sesshy";
 				SDKROOT = macosx;
 			};
 			name = Release;

@@ -7,7 +7,7 @@ struct SessionMenuView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("Session Menu")
+                    Text("Sesshy")
                         .font(.headline)
                     Text("\(store.sessions.count) active terminal connections")
                         .font(.caption)

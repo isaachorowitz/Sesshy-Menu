@@ -1,6 +1,6 @@
 <div align="center">
 
-# Sesshy Menu
+# Sesshy
 
 **Native macOS menubar app that shows all your active terminal connections at a glance.**
 
@@ -14,7 +14,7 @@ SSH sessions · Database connections · Port forwards · and more — all in one
 
 ## What it does
 
-Sesshy Menu sits in your macOS menubar and scans your running processes in real time. Click the icon to see every active remote session across all your terminal windows — no setup, no agents, no configuration files.
+Sesshy sits in your macOS menubar and scans your running processes in real time. Click the icon to see every active remote session across all your terminal windows — no setup, no agents, no configuration files.
 
 ## Detected connections
 
