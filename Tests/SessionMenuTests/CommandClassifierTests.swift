@@ -9,18 +9,18 @@ struct CommandClassifierTests {
             parentPID: 1,
             tty: "ttys001",
             elapsedSeconds: 120,
-            commandLine: "ssh -i ~/.ssh/id_ed25519 isaac@example.com"
+            commandLine: "ssh -i ~/.ssh/id_ed25519 user@example.com"
         )
 
         let session = SessionClassifier.classify(
             process: process,
             terminalName: "Ghostty",
-            workingDirectory: "/Users/isaac/bax-app",
+            workingDirectory: "/Users/dev/my-app",
             connections: []
         )
 
         #expect(session?.kind == .ssh)
-        #expect(session?.target == "isaac@example.com")
+        #expect(session?.target == "user@example.com")
         #expect(session?.title == "SSH")
     }
 
@@ -31,18 +31,18 @@ struct CommandClassifierTests {
             parentPID: 1,
             tty: "ttys004",
             elapsedSeconds: 120,
-            commandLine: "ssh isaac@example.com tail -f /var/log/app.log"
+            commandLine: "ssh user@example.com tail -f /var/log/app.log"
         )
 
         let session = SessionClassifier.classify(
             process: process,
             terminalName: "Ghostty",
-            workingDirectory: "/Users/isaac/bax-app",
+            workingDirectory: "/Users/dev/my-app",
             connections: []
         )
 
         #expect(session?.kind == .ssh)
-        #expect(session?.target == "isaac@example.com")
+        #expect(session?.target == "user@example.com")
     }
 
     @Test
@@ -58,7 +58,7 @@ struct CommandClassifierTests {
         let session = SessionClassifier.classify(
             process: process,
             terminalName: "Ghostty",
-            workingDirectory: "/Users/isaac/bax-app",
+            workingDirectory: "/Users/dev/my-app",
             connections: []
         )
 
@@ -79,7 +79,7 @@ struct CommandClassifierTests {
         let session = SessionClassifier.classify(
             process: process,
             terminalName: "iTerm2",
-            workingDirectory: "/Users/isaac/bax-app",
+            workingDirectory: "/Users/dev/my-app",
             connections: []
         )
 
@@ -95,13 +95,13 @@ struct CommandClassifierTests {
             parentPID: 1,
             tty: "ttys003",
             elapsedSeconds: 180,
-            commandLine: "psql postgresql://isaac@db.internal:5432/analytics"
+            commandLine: "psql postgresql://user@db.internal:5432/analytics"
         )
 
         let session = SessionClassifier.classify(
             process: process,
             terminalName: "Terminal",
-            workingDirectory: "/Users/isaac/bax-app",
+            workingDirectory: "/Users/dev/my-app",
             connections: []
         )
 
@@ -123,7 +123,7 @@ struct CommandClassifierTests {
         let session = SessionClassifier.classify(
             process: process,
             terminalName: "Terminal",
-            workingDirectory: "/Users/isaac/bax-app",
+            workingDirectory: "/Users/dev/my-app",
             connections: []
         )
 

@@ -5,7 +5,7 @@ struct ProcessParserTests {
     @Test
     func parsesPSOutputRows() throws {
         let output = """
-          100     1 ttys001    120 /usr/bin/ssh ssh isaac@example.com
+          100     1 ttys001    120 /usr/bin/ssh ssh user@example.com
           200   100 ttys001     25 /usr/bin/psql psql postgresql://db.internal/app
         """
 
@@ -24,8 +24,8 @@ struct ProcessParserTests {
     func parsesLsofConnectionRows() throws {
         let output = """
         COMMAND PID USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME
-        ssh     100 isaac    3u  IPv4 0x1234567890abcdef      0t0  TCP 10.0.0.2:56123->192.168.1.15:22 (ESTABLISHED)
-        psql    200 isaac    4u  IPv4 0xabcdef1234567890      0t0  TCP 10.0.0.2:56124->db.internal:5432 (ESTABLISHED)
+        ssh     100 dev     3u  IPv4 0x1234567890abcdef      0t0  TCP 10.0.0.2:56123->192.168.1.15:22 (ESTABLISHED)
+        psql    200 dev     4u  IPv4 0xabcdef1234567890      0t0  TCP 10.0.0.2:56124->db.internal:5432 (ESTABLISHED)
         """
 
         let connections = try ProcessSnapshotParser.parseLSOF(output)
