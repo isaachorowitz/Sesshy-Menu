@@ -4,7 +4,7 @@
 
 **Native macOS menubar app that shows all your active terminal connections at a glance.**
 
-SSH sessions · Database connections · Port forwards · and more — all in one click.
+SSH sessions · Database connections · Port forwards · all in one click.
 
 [Ziplyne](https://ziplyne.agency) · [Isaac Horowitz](https://iowitz.com)
 
@@ -16,44 +16,77 @@ SSH sessions · Database connections · Port forwards · and more — all in one
 
 Sesshy sits in your macOS menubar and scans your running processes in real time. Click the icon to see every active remote session across all your terminal windows — no setup, no agents, no configuration files.
 
-## Detected connections
+---
 
-### Remote Sessions
-| Type | Commands detected |
-|------|-------------------|
-| **SSH** | `ssh` |
-| **Secure Copy** | `scp` |
-| **SFTP** | `sftp` |
-| **Mosh** | `mosh-client` |
+## Everything Sesshy detects
 
-### Database Sessions
-| Type | Commands detected |
-|------|-------------------|
-| **PostgreSQL** | `psql` — via connection URL (`postgresql://host/db`) or flags (`-h`, `-d`) |
+### Remote Access
+
+| Command | What Sesshy shows |
+|---------|-------------------|
+| `ssh user@host` | Host or `user@host` target, connected socket endpoint, terminal app, TTY, elapsed time, working directory |
+| `ssh -i key.pem host` | Correctly skips key flag, resolves `host` as the target |
+| `ssh -o ProxyCommand="..." host` | Handles quoted option values, resolves the final `host` |
+| `ssh host tail -f /var/log/app.log` | Detects host even when a remote command follows |
+| `scp src user@host:dest` | Detected as a remote session, target resolved from arguments |
+| `sftp user@host` | Detected as a remote session |
+| `mosh-client` | Detected as a remote session (Mosh underlying transport process) |
+
+### Databases
+
+| Command | What Sesshy shows |
+|---------|-------------------|
+| `psql postgresql://user@host:5432/dbname` | Host (`host`), database name (`dbname`) |
+| `psql postgresql://host/dbname` | Host, database name |
+| `psql -h host -d dbname` | Host via `-h` / `--host`, database via `-d` / `--dbname` |
+| `psql -h host dbname` | Host and positional database name |
 
 ### Tunnels & Port Forwards
-| Type | Commands detected |
-|------|-------------------|
-| **kubectl port-forward** | `kubectl port-forward` — shows target resource and port mapping |
 
-For each session Sesshy shows:
-- **Target** — hostname, user@host, or Kubernetes resource
-- **Terminal** — which app the session is running in
-- **TTY** — the tty identifier
-- **Duration** — how long the session has been alive
-- **Working directory** — the cwd at session start
-- **Port mapping** — for tunnels (e.g. `5432:5432`)
-- **Database name** — for Postgres connections
+| Command | What Sesshy shows |
+|---------|-------------------|
+| `kubectl port-forward deployment/api 8080:80` | Resource (`deployment/api`), port mapping (`8080:80`) |
+| `kubectl port-forward pod/mypod 5432:5432 -n staging` | Resource, port mapping, ignores namespace flag |
+| `kubectl port-forward svc/myservice 3000:3000` | Service name and port mapping |
+
+---
 
 ## Supported terminals
 
-Sesshy resolves the parent terminal app for each session:
+Sesshy walks the process tree to identify which terminal app each session belongs to:
 
-`Terminal` · `iTerm2` · `Ghostty` · `Warp` · `Kitty` · `Alacritty` · `WezTerm` · `Hyper`
+| Terminal | Detected as |
+|----------|-------------|
+| Apple Terminal | `Terminal` |
+| iTerm2 | `iTerm2` |
+| Ghostty | `Ghostty` |
+| Warp | `Warp` |
+| Kitty | `Kitty` |
+| Alacritty | `Alacritty` |
+| WezTerm | `WezTerm` |
+| Hyper | `Hyper` |
+
+Any unrecognized terminal falls back to the TTY identifier (e.g. `ttys003`).
+
+---
+
+## Per-session details
+
+For every detected session, Sesshy displays:
+
+- **Title** — connection type (SSH, Postgres, Port Forward)
+- **Target** — the hostname, `user@host`, Kubernetes resource, or database host
+- **Subtitle** — database name, port mapping, or remote socket endpoint
+- **Terminal** — which terminal app the session is running in
+- **TTY** — the tty identifier
+- **Duration** — how long the session has been alive (`5s`, `12m`, `2h 4m`, `1d 3h`)
+- **Working directory** — the cwd at the time of the session
+
+---
 
 ## Requirements
 
-- macOS 13 Ventura or later
+- macOS 14 Sonoma or later
 - Xcode 15+ (to build from source)
 
 ## Build & Run
@@ -63,7 +96,7 @@ Sesshy resolves the parent terminal app for each session:
 git clone https://github.com/isaachorowitz/Sesshy-Menu.git
 cd Sesshy-Menu
 
-# Build
+# Build release
 swift build -c release
 
 # Or open in Xcode
