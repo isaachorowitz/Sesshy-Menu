@@ -1,0 +1,26 @@
+name: SessionMenu
+options:
+  bundleIdPrefix: dev.isaac
+settings:
+  base:
+    SWIFT_VERSION: 6.0
+    MACOSX_DEPLOYMENT_TARGET: 14.0
+targets:
+  SessionMenu:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - Sources/SessionMenu
+    settings:
+      base:
+        PRODUCT_NAME: "Session Menu"
+        PRODUCT_BUNDLE_IDENTIFIER: dev.isaac.sessionmenu
+        MARKETING_VERSION: 0.1.0
+        CURRENT_PROJECT_VERSION: 1
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: "Session Menu"
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.developer-tools
+        INFOPLIST_KEY_LSUIElement: YES
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_HARDENED_RUNTIME: YES
