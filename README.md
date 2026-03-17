@@ -8,6 +8,8 @@ SSH sessions · Database connections · Port forwards · all in one click.
 
 [Ziplyne](https://ziplyne.agency) · [Isaac Horowitz](https://iowitz.com)
 
+*Last updated: March 17, 2026*
+
 </div>
 
 ---
