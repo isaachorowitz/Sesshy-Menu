@@ -4,6 +4,8 @@
 
 **Native macOS menubar app that shows all your active terminal connections at a glance.**
 
+*Last updated: March 17, 2026*
+
 SSH sessions · Database connections · Port forwards · all in one click.
 
 [Ziplyne](https://ziplyne.agency) · [Isaac Horowitz](https://iowitz.com)
