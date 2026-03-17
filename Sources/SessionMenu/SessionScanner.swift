@@ -31,8 +31,7 @@ enum SessionScannerSupport {
         }
     }
 
-    static func terminalName(for process: ProcessSnapshot, in processes: [ProcessSnapshot]) -> String {
-        let byPID = Dictionary(uniqueKeysWithValues: processes.map { ($0.pid, $0) })
+    static func terminalName(for process: ProcessSnapshot, byPID: [Int32: ProcessSnapshot]) -> String {
         var current = process
         var seen = Set<Int32>()
 
@@ -172,9 +171,12 @@ struct SessionScanner: SessionScanning {
         let connections = (try? ProcessSnapshotParser.parseLSOF(try await connectionsOutput)) ?? []
         let workingDirectories = (try? parseWorkingDirectories(from: try await cwdOutput)) ?? [:]
 
+        let processByPID = Dictionary(uniqueKeysWithValues: processes.map { ($0.pid, $0) })
+        let connectionsByPID = Dictionary(grouping: connections, by: \.pid)
+
         return candidates.compactMap { process in
-            let terminalName = SessionScannerSupport.terminalName(for: process, in: processes)
-            let processConnections = connections.filter { $0.pid == process.pid }
+            let terminalName = SessionScannerSupport.terminalName(for: process, byPID: processByPID)
+            let processConnections = connectionsByPID[process.pid] ?? []
             return SessionClassifier.classify(
                 process: process,
                 terminalName: terminalName,

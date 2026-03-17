@@ -116,9 +116,10 @@ enum SessionClassifier {
         workingDirectory: String?,
         connections: [SocketConnection]
     ) -> ActiveSession? {
-        let executable = process.executableName.lowercased()
+        let args = process.arguments
+        let executable = (args.first.map { URL(filePath: $0).lastPathComponent } ?? process.commandLine).lowercased()
         if ["ssh", "sftp", "scp", "mosh-client"].contains(executable) {
-            let target = firstConnectionTarget(in: process.arguments) ?? executable
+            let target = firstConnectionTarget(in: args) ?? executable
             return ActiveSession(
                 pid: process.pid,
                 terminalName: terminalName,
@@ -134,12 +135,12 @@ enum SessionClassifier {
             )
         }
 
-        if executable == "kubectl", let session = classifyKubectl(process: process, terminalName: terminalName, workingDirectory: workingDirectory, connections: connections) {
+        if executable == "kubectl", let session = classifyKubectl(process: process, args: args, terminalName: terminalName, workingDirectory: workingDirectory, connections: connections) {
             return session
         }
 
         if executable == "psql" {
-            let parsed = parsePostgresTarget(from: process.arguments)
+            let parsed = parsePostgresTarget(from: args)
             return ActiveSession(
                 pid: process.pid,
                 terminalName: terminalName,
@@ -160,18 +161,19 @@ enum SessionClassifier {
 
     private static func classifyKubectl(
         process: ProcessSnapshot,
+        args: [String],
         terminalName: String,
         workingDirectory: String?,
         connections: [SocketConnection]
     ) -> ActiveSession? {
-        guard let index = process.arguments.firstIndex(of: "port-forward"),
-              process.arguments.indices.contains(index + 1)
+        guard let index = args.firstIndex(of: "port-forward"),
+              args.indices.contains(index + 1)
         else {
             return nil
         }
 
-        let target = process.arguments[index + 1]
-        let mapping = process.arguments.dropFirst(index + 2).first(where: { $0.contains(":") }) ?? ""
+        let target = args[index + 1]
+        let mapping = args.dropFirst(index + 2).first(where: { $0.contains(":") }) ?? ""
         return ActiveSession(
             pid: process.pid,
             terminalName: terminalName,
@@ -187,8 +189,9 @@ enum SessionClassifier {
         )
     }
 
+    private static let optionArgs: Set<String> = ["-i", "-p", "-l", "-J", "-F", "-o", "-S", "-W", "-L", "-R", "-D", "-b", "-c", "-E", "-m", "-Q", "-w"]
+
     private static func firstConnectionTarget(in args: [String]) -> String? {
-        let optionArgs = Set(["-i", "-p", "-l", "-J", "-F", "-o", "-S", "-W", "-L", "-R", "-D", "-b", "-c", "-E", "-m", "-Q", "-w"])
         var skipNext = false
 
         for token in args.dropFirst() {

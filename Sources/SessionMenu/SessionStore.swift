@@ -32,7 +32,7 @@ final class SessionStore {
         do {
             let nextSessions = try await scanner.scan()
             guard generation == refreshGeneration else { return }
-            sessions = nextSessions
+            if nextSessions != sessions { sessions = nextSessions }
             errorMessage = nil
         } catch {
             guard generation == refreshGeneration else { return }
